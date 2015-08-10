@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+	<body>
+		<canvas width="100" height="100"></canvas>
+
+
+
+		<script>
+		var canvas = document.querySelector('canvas');
+      	var ctx = canvas.getContext("2d");
+		//ctx.fillStyle="black";
+		//ctx.fillRect(0,0,100,100);
+		var image = new Image();
+		
+		image.onload = function(){
+			ctx.drawImage(image, 0 , 0 , 100, 100);	
+			makeGrayScale();
+		}
+		
+		image.src = "test.JPG";
+
+		var makePixelGray = function(r, g, b, a){
+			var y = (r*0.3) + (g*0.59) + (b*0.11);
+			return {r:y, g:y, b:y, a:y};
+		}
+
+		function makeGrayScale(){
+			var r,g,b,a;
+			var dataArray = ctx.getImageData(0,0,100,100);
+			var pixelNum = dataArray.data.length / 4;
+
+	       	for(var i = 0 ; i < pixelNum ; i++){
+	    		r = dataArray.data[i*4 + 0];
+	    		g = dataArray.data[i*4 + 1];
+	    		b = dataArray.data[i*4 + 2];
+	    		a = dataArray.data[i*4 + 3];
+	    		
+	    		pixel = makePixelGray(r, g, b, a);
+	    		dataArray.data[i*4 +0] = newPixel.r;
+	    		dataArray.data[i*4 +1] = newPixel.g;
+	    		dataArray.data[i*4 +2] = newPixel.b;
+	    		dataArray.data[i*4 +3] = newPixel.a;
+	       	}
+	       	ctx.putImageData(dataArray, 0, 0);     	
+	    }
+      		    
+      	</script>		
+	</body>
+</html>
